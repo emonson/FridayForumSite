@@ -1,0 +1,5 @@
+Redirect 301 /FridayForum/fall_2014.html /FridayForum/index.html?semester=Fall_2014
+Redirect 301 /FridayForum/spring_2014.html /FridayForum/index.html?semester=Spring_2014
+Redirect 301 /FridayForum/fall_2013.html /FridayForum/index.html?semester=Fall_2013
+Redirect 301 /FridayForum/spring_2013.html /FridayForum/index.html?semester=Spring_2013
+Redirect 301 /FridayForum/fall_2012.html /FridayForum/index.html?semester=Fall_2012
