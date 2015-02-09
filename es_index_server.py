@@ -4,16 +4,23 @@
 # POST it a payload of the Spreadsheet key
 # Expects to read a configuration file, conf.yaml
 
+import cgitb
+# to log errors to html pages in this specified directory
+# cgitb.enable(True, '/Users/Shared/errors')
+# or turn off
+cgitb.enable(False, '/Users/Shared/errors')
+
+# Logging
+log_f = open('/Users/Shared/gs_changes_server.log', 'w')
+# log_f.write(datetime.datetime.now() + '\n')
+# log_f.write('updated...\n')
+
 import sys
 import urllib2
 import json
 import dateutil.parser
 from elasticsearch import Elasticsearch
 import cgi
-
-import cgitb
-# to log errors to html pages in this specified directory
-cgitb.enable(False, '/Users/Shared/errors')
 
 # Now also make a connection to Elasticsearch
 es = Elasticsearch()
@@ -39,20 +46,17 @@ RECREATE = False
 
 # DANGER -- Delete index!!
 if RECREATE:
-    es.indices.delete(es_index_name)
+    es.indices.delete(index=es_index_name)
 
 # Create the index
 if not es.indices.exists( index = es_index_name ):
     es.indices.create( index = es_index_name )
     es.indices.put_mapping(index=es_index_name, doc_type=es_doc_type, body=doc_mapping)
 
-# Logging
-log_f = open('/Users/Shared/gs_changes_server.log', 'w')
-
 form = cgi.FieldStorage()
 key = form.getvalue("key")
 modified_sheet_name = form.getvalue("sheet_name")
-# log_f.write(key + " __ " + modified_sheet_name + '\n')
+log_f.write(key + " __ " + modified_sheet_name + '\n')
 
 sheets_json_url = "https://spreadsheets.google.com/feeds/worksheets/"+key+"/public/basic?alt=json"
 sheets_json = urllib2.urlopen(sheets_json_url).read()
