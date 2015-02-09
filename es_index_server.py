@@ -30,14 +30,15 @@ es_doc_type = 'talks'
 doc_mapping = { "properties": {
     "abstract": { "analyzer": "english", "type": "string" },
     "affiliation": { "analyzer": "standard", "type": "string" },
-    "sheet_name": { "index": "not_analyzed", "type": "string" },
+    "speaker": { "analyzer": "standard", "type": "string" },
+    "sheet_name": { "analyzer": "standard", "type": "string" },
     "gs_link": { "index": "no", "type": "string" },
     "gs_key": { "index": "no", "type": "string" },
     "gs_sheet_id": { "index": "no", "type": "string" },
     "video": { "index": "no", "type": "string" },
     "slides": { "index": "no", "type": "string" },
-    "livestream": { "index": "no", "type": "string" },
-    "date": { "format": "date", "type": "dateOptionalTime" }
+    "livestream": { "index": "no", "type": "string" }
+    # "date": { "format": "date", "type": "dateOptionalTime" }
   }
 }
 
@@ -86,15 +87,18 @@ for entry in sheets_dict['feed']['entry']:
             column_names = [k for k in row.keys() if k.startswith('gsx$')]
             for col_name in column_names:
                 real_name = col_name[4:].lower().replace(' ','_')
-                # Using date as unique ID for talk, but changing to YYYY-MM-DD format
-                if real_name == 'date':
-                    date_str = row[col_name]['$t']
-                    dd = dateutil.parser.parse(date_str)
-                    doc_id = dd.date().isoformat()
-                    # and serializing date as datetime object for real time object in ES
-                    doc['date'] = dd
-                else:
-                    doc[real_name] = row[col_name]['$t']
+                cell_value = row[col_name]['$t']
+                # Don't want to put field in doc if empty cell
+                if cell_value:
+                    # Using date as unique ID for talk, but changing to YYYY-MM-DD format
+                    if real_name == 'date':
+                        date_str = cell_value
+                        dd = dateutil.parser.parse(date_str)
+                        doc_id = dd.date().isoformat()
+                        # and serializing date as datetime object for real time object in ES
+                        doc['date'] = dd
+                    else:
+                        doc[real_name] = cell_value
 
             # store talk in ES
             log_f.write(doc_id + '\n' + str(doc) + '\n')
