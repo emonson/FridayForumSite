@@ -36,8 +36,8 @@ doc_mapping = { "properties": {
     "gs_sheet_id": { "index": "no", "type": "string" },
     "video": { "index": "no", "type": "string" },
     "slides": { "index": "no", "type": "string" },
-    "livestream": { "index": "no", "type": "string" }
-    # "date": { "format": "date", "type": "???" }
+    "livestream": { "index": "no", "type": "string" },
+    "date": { "format": "date", "type": "dateOptionalTime" }
   }
 }
 
