@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Visualization Friday Forum, Duke University
+	</title>
+  <link href="resources/ff.css" media="screen" rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="resources/vtg_favicon.png" type="image/x-icon" />
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-54664619-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+<body>
+
+<div id="wrap">
+
+	<div id="header">
+		<p class="h1">Duke Visualization Friday Forum</p>
+		<p class="h1sub" id="semester_title"></p>
+	</div>
+	
+	<div id="info_banner">
+	    
+	    <!-- Keeping all banners hidden and revealing the appropriate one -->
+		<div id="info_banner_current" hidden>
+            <p class="h1sub">Fridays &middot; Noon &ndash; 1pm<br/>
+            D106 LSRC &middot; West Campus 
+            <span class="font_normal">(
+            <a href="http://myatlascms.com/map/?id=21&mrkId=2766">map</a>
+            , <a href="http://myatlascms.com/map/lib/image-cache/i.php?mapId=21&image=lsrc_wings.jpg&w=930&h=750">image</a>
+            )</span></p>
+            <p class="h2sub">Lunch served</p>
+        </div>
+        
+        <div id="info_banner_past" hidden>
+            <p class="h1sub">Past Schedule Archive</p>
+            <p class="h2sub"><a class="non_current_link" href="index.html">Click here for the current schedule</a></p>
+        </div>
+
+        <div id="info_banner_future" hidden>
+            <p class="h1sub">Tentative Future Schedule</p>
+            <p class="h2sub"><a class="non_current_link" href="index.html">Click here for the current schedule</a></p>
+        </div>
+	</div>
+	
+
+	<div id="main">
+
+		<div class="mainsection">
+		
+			<p class="h2">Purpose</p>
+			
+			<p>The Visualization Friday Forum seminar series is a forum for faculty, staff 
+			and students from across the university (and beyond Duke) to share their research 
+			involving the development and/or application of visualization methodologies. 
+			Our goal is to build an interdisciplinary community of visualization 
+			experts whose combined knowledge can facilitate research and promote 
+			innovation. Anyone is welcome to attend.</p>
+      
+		</div>
+			
+		<div class="mainsection">
+			
+		    <select id="semester_select"></select>
+			<p class="h2" id="schedule_heading">Schedule</p>
+
+			<table class="schedule" id="schedule_table" >
+			
+			<colgroup>
+			  <col class="date_col" />
+			  <col class="text_col" />
+			</colgroup>
+			
+			<!-- This gets replaced by the table elements from the template & data -->
+			<img src="resources/spinner_1.gif" id="schedule_loading_image" />
+			
+			</table>
+			
+		</div>
+			
+		<div class="mainsection">
+			<p class="h2">Semester schedules</p>
+            <p id="prev_schedule_section"></p>
+		</div>
+			
+		<div class="mainsection">
+			
+			<p class="h2">Contact</p>
+			
+			<p>If you wish to receive email announcements each week, please subscribe
+			to the Visualization mailing list. To do so, email 
+			<a href="mailto:sympa@duke.edu">sympa@duke.edu</a> 
+			and put "SUBSCRIBE visualization" in the body of the message. 
+			The email account that you use to send this note will be the account added 
+			to the sympa email list.</p>
+			
+			<p>For more information contact Eric Monson (emonson {at} duke.edu) 
+			or Angela Zoss (angela {dot} zoss {at} duke.edu)
+			</p>
+			
+		</div>
+
+		<div class="lastsection">
+			
+			<p class="h2">Sponsors</p>
+			
+			<p>The Visualization Friday Forum is sponsored by these Duke organizations:</p>
+			<p>
+				<a href="http://isis.duke.edu" target="_blank">Information Science + Information Studies</a>  &middot; 
+				<a href="http://dive.duke.edu" target="_blank">DiVE</a>  &middot; 
+				<a href="http://visualstudies.duke.edu" target="_blank">Media Arts + Sciences</a> &middot; 
+				<a href="http://library.duke.edu/data/" target="_blank">Data and Visualization Services</a> &middot; 
+				<a href="http://www.cs.duke.edu/" target="_blank">Computer Science</a> &middot; 
+				<a href="http://oit.duke.edu/about/groups/research.php" target="_blank">Research Computing</a> &middot; 
+				<a href="http://vis.duke.edu" target="_blank">Visualization &amp; Interactive Systems</a>
+			</p>
+			
+		</div>
+
+	</div> <!-- id = "main" -->
+	
+	<div id="footer">
+		<p class="rights">All contents copyright
+		    <a href="http://vis.duke.edu/">Duke Visualization &amp; Interactive Systems Group</a>,
+		    and the Regents of 
+		    <a href="http://www.duke.edu/">Duke University</a>
+		</p>
+		
+		<p class="update">Page updated: 6 Nov 2014</p>
+		
+	</div> <!-- id = "footer" -->
+	
+</div> <!--	id = "wrap" -->
+    
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~- -->
+    <!-- ===  SCRIPTS  === -->
+    
+    <!-- Talk list template -->
+    <script id="talk_template" type="text/x-handlebars-template">
+			<tr class="{{tr_class}}">
+  			<td class="{{td_date_class}}">
+    			<p class="date">{{monthday}}</p>
+    		</td>
+  			<td>
+    			<a id="{{date_anchor}}"></a>
+    			<p class="speaker">{{speaker}}<span class="affiliation"> {{affiliation}}</span></p>
+    			<a class="anchor" href="#{{date_anchor}}">
+    			  <p class="title">{{title}}</p>
+    			</a>
+    			<p class="abstract">{{{abstract}}}</p>
+    			<p class="live_link">
+    			{{#if livestream}}
+    			  {{! NOTE: existence of tr_class test may make this fragile… }}
+    			  {{#if tr_class}}
+    			    &middot; <a href="{{livestream}}">Live stream</a>
+    			  {{/if}}
+    			{{/if}}
+    			</p>
+    			<p class="video_link">
+    			{{#if video}}&middot; <a href="{{video}}">Video of the talk</a>{{/if}}
+          		{{#if videonotes}} &ndash; <em>{{videonotes}}</em> {{/if}}
+    			</p>
+    			<p class="slides_link">
+    			{{#if slides}}&middot; <a href="{{slides}}">Copy of the slides</a>{{/if}}
+          		{{#if slidesnotes}} &ndash; <em>{{{slidesnotes}}}</em> {{/if}}
+    			</p>
+  			</td>
+			</tr>
+    </script>
+
+    <!-- Dependencies -->
+    <script type="text/javascript" src="common/handlebars.js"></script>
+    <script type="text/javascript" src="common/jquery.js"></script>
+    <script type="text/javascript" src="common/tabletop.js"></script>
+	<script type="text/javascript" src="common/parseuri.js"></script>
+    
+    <!-- JSON file with sheets = [{"semester":"Spring_2015", "status":"future"... ] -->
+	<script type="text/javascript" src="sheet_names.json"></script>
+    
+    <!-- MAIN SCRIPT -->
+    <script type="text/javascript">
+
+    // Link for main spreadsheet. Semesters are on individual tabs.
+    var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?key=0AgpG-BX4vPChdGdQdGllSEc1eDlTMjl5NUZjWVdnTHc&output=html';
+    
+    var talk_template_source = $("#talk_template").html();
+    var template = Handlebars.compile(talk_template_source);
+    
+    var target_sheet;
+    var ff_data;
+    var uri = parseUri(location.toString());
+    
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+    // First, find the semester marked "current"
+    $.each(sheets, function(idx, sheet_obj) {
+        if (sheet_obj.status == 'current') {
+            target_sheet = sheet_obj;
+        }
+    });
+    
+    if (uri.queryKey.semester) {
+        // Make a second pass to see if a semester matches the query parameter
+        $.each(sheets, function(idx, sheet_obj) {
+            // invariant to case and spaces or underscores
+            var sm = sheet_obj.semester.toLowerCase().replace(' ', '').replace('_', '').replace('%20','');
+            var qk = uri.queryKey.semester.toLowerCase().replace(' ', '').replace('_', '').replace('%20','');
+            if (sm == qk) {
+                target_sheet = sheet_obj;
+            }
+        });
+    }
+        
+	// Populate semester names / links select 
+
+    // Loop through the semesters and populate the select with options
+    $.each(sheets, function(idx, sobj) {
+        
+        var pg_url = uri.protocol + "://" + uri.host + uri.path + "?semester=" + sobj.semester;
+        $('#semester_select').append( $('<option></option>').val(pg_url).html(sobj.semester.replace('_',' ')) );
+        
+        var semester = sobj.semester.replace('_',' ');
+        if (sobj.semester == target_sheet.semester) {
+            semester = "[" + semester + "]";      
+        }
+        var link_internal_tags;
+        if (sobj.status == 'future') {
+            link_internal_tags = $('<em></em>').html(semester);
+        } else if (sobj.status == 'current') {
+            link_internal_tags = $('<strong></strong>').html(semester);
+        } else {
+            link_internal_tags = semester;
+        }
+        $('#prev_schedule_section').append( $('<a></a>').attr('href', pg_url).html( link_internal_tags ) );
+        if (idx < (sheets.length - 1)) {
+            $('#prev_schedule_section').append( ' &middot;  ' );
+        }
+    });
+    
+    // Set default selection to current dataset, set page title, and reveal appropriate banner text
+    if (target_sheet) {
+        var pg_url = uri.protocol + "://" + uri.host + uri.path + "?semester=" + target_sheet.semester;
+        $("#semester_select").val(pg_url);
+	    $( "#semester_title" ).html(target_sheet.semester.replace('_',' '));
+
+	    if (target_sheet.status == 'future') {
+	        $( "#schedule_heading" ).html( 'Tentative Future Schedule' );
+	        $( "#info_banner_future" ).removeAttr('hidden');
+	    } else if (target_sheet.status == 'current') {
+	        $( "#schedule_heading" ).html( 'Current Semester Schedule' );
+	        $( "#info_banner_current" ).removeAttr('hidden');
+	    } else if (target_sheet.status == 'past' ) {
+	        $( "#schedule_heading" ).html( 'Past Schedule Archive' );
+	        $( "#info_banner_past" ).removeAttr('hidden');
+	    } else {
+	        $( "#schedule_heading" ).html( 'Schedule' );
+	        $( "#info_banner_current" ).removeAttr('hidden');
+	    }
+    }
+    
+    // And set callback function for the select to open correct page
+    // http://stackoverflow.com/questions/13709716/open-a-new-webpage-from-a-combo-box-onclick-event-for-the-option-selected
+    $("#semester_select").on('change', function(){
+        window.open(this.value, '_self');
+    });
+	
+    function compare_dates_ascending(a,b) {
+        var a_date = new Date(a.date);
+        var b_date = new Date(b.date);
+        if (a_date < b_date) { return -1; }
+        if (a_date > b_date) { return 1; }
+        return 0;
+    }
+    
+    var populate_semester = function(target_sheet) {
+        Tabletop.init( { key: public_spreadsheet_url,
+                         callback: showInfo,
+                         simpleSheet: true,
+                         wanted: [target_sheet.semester]} );
+    };
+
+    function showInfo(data, tabletop) {
+
+        // Remove animated gif indicating page loading
+        $("#schedule_loading_image").remove();
+
+        // Gather data from Google spreadsheet
+        ff_data = tabletop.sheets(target_sheet.semester).all();
+
+        // Sort data by date just in case spreadsheet is not
+        ff_data.sort(compare_dates_ascending);
+
+        // Loop through rows of spreadsheet
+        $.each( ff_data, function(i, ff) {
+            // Converting d/m/yyyy format date into Month Day
+            var dat = new Date(ff.date);
+            // Set time of day of the end of the talk
+            dat.setHours(13);
+            var now = Date.now();
+            ff.monthday = months[dat.getMonth()] + ' ' + dat.getDate();
+            // Create an anchor string out of the date
+            // http://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date
+            ff.date_anchor = dat.getFullYear() + '-'
+                         + ('0' + (dat.getMonth()+1)).slice(-2) + '-'
+                         + ('0' + dat.getDate()).slice(-2);
+
+            // Add characters to affiliation
+            ff.affiliation = ff.affiliation ? " &middot; " + ff.affiliation : "";
+
+            // Replace paragraph markers with actual html and break markers with real breaks
+            // NOTE: /.../g is RegEx for replacing all instances
+            ff.abstract = ff.abstract ? ff.abstract.replace(/<p>/g,'</p><p class="abstract">') : "";
+            ff.abstract = ff.abstract ? ff.abstract.replace(/<br>/g,'<br />') : "";
+
+            // Want text a different class if there isn't a talk
+            // and border & color different if current on-deck talk
+            // NOTE: brittle test for now...
+            if (ff.speaker.trim().toLowerCase() == 'no talk') {
+                ff.tr_class = 'greyed_out';
+            }
+            // Test whether the end of the talk is less than 7 days away
+            // NOTE: This gets screwed up slightly on the time change weeks!
+            if ((dat-now)/86400000 > 0 && (dat-now)/86400000 < 7) {
+                ff.tr_class = 'next_up';
+            }
+            // Want to show the first up as next even if more than a week before
+            if ((dat-now)/86400000 > 0 && i==0) {
+                ff.tr_class = 'next_up';
+            }
+
+            // Send data to template
+            var html = template(ff);
+            $("#schedule_table").append(html);
+        });
+    
+        // Scroll to next up
+        // $(".next_up").get(0).scrollIntoView();
+        // http://stackoverflow.com/questions/6677035/jquery-scroll-to-element
+        var nu = $(".next_up");
+        if (nu.length > 0) {
+            $('html, body').animate({scrollTop: nu.offset().top}, 
+                                        {duration:1000,
+                                         complete:function(){ window.location.hash = current_hash;}}
+            );
+        }
+    }
+    
+    // ------------------
+    // DOCUMENT READY
+    // ------------------
+
+    $(document).ready( function() {
+        populate_semester(target_sheet);
+    });
+        
+    </script>
+
+</body>
+</html>
