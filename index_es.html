@@ -180,7 +180,9 @@
     <!-- Dependencies -->
     <script type="text/javascript" src="common/handlebars.js"></script>
     <script type="text/javascript" src="common/jquery.js"></script>
+<!-- 
     <script type="text/javascript" src="common/tabletop.js"></script>
+ -->
 	<script type="text/javascript" src="common/parseuri.js"></script>
     
     <!-- JSON file with sheets = [{"semester":"Spring_2015", "status":"future"... ] -->
@@ -190,7 +192,7 @@
     <script type="text/javascript">
 
     // Link for main spreadsheet. Semesters are on individual tabs.
-    var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?key=0AgpG-BX4vPChdGdQdGllSEc1eDlTMjl5NUZjWVdnTHc&output=html';
+    // var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?key=0AgpG-BX4vPChdGdQdGllSEc1eDlTMjl5NUZjWVdnTHc&output=html';
     
     var talk_template_source = $("#talk_template").html();
     var template = Handlebars.compile(talk_template_source);
@@ -282,22 +284,27 @@
     }
     
     var populate_semester = function(target_sheet) {
-        Tabletop.init( { key: public_spreadsheet_url,
-                         callback: showInfo,
-                         simpleSheet: true,
-                         wanted: [target_sheet.semester]} );
+//         Tabletop.init( { key: public_spreadsheet_url,
+//                          callback: showInfo,
+//                          simpleSheet: true,
+//                          wanted: [target_sheet.semester]} );
+        $.ajax({
+            url: "http://localhost/es/semester?s=" + target_sheet.semester,
+            async: true,
+            dataType: "json",
+            success: function(response) {
+                showInfo(response);
+            }
+        });
     };
 
-    function showInfo(data, tabletop) {
+    function showInfo(ff_data) {
 
         // Remove animated gif indicating page loading
         $("#schedule_loading_image").remove();
 
-        // Gather data from Google spreadsheet
-        ff_data = tabletop.sheets(target_sheet.semester).all();
-
         // Sort data by date just in case spreadsheet is not
-        ff_data.sort(compare_dates_ascending);
+        // ff_data.sort(compare_dates_ascending);
 
         // Loop through rows of spreadsheet
         $.each( ff_data, function(i, ff) {

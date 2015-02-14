@@ -47,9 +47,12 @@ class SimpleEsServer(object):
         
         if s is not None:
             exclude_return = ['gs_key','gs_sheet_id','gs_link']
-        
+            
+            # Right now the sheet_name field is being analyzed with "standard", which
+            # lowercases but does not split on underscore, so since filters are not
+            # run through the analyzer, need to make sure I lowercase before query
             body = rec_dd()
-            body['query']['filtered']['filter']['term']['sheet_name'] = s
+            body['query']['filtered']['filter']['term']['sheet_name'] = s.lower()
         
             res = self.es.search(index="friday_forum_test", 
                                     doc_type='talks', 
