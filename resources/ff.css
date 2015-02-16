@@ -94,6 +94,10 @@ html {
 	background-color: #FFE994;
 }
 
+form {
+    float: right;
+    padding-right: 6px;
+}
 
 #semester_select {
     float: right;

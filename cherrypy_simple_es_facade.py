@@ -1,4 +1,5 @@
 import cherrypy
+import json
 from collections import defaultdict
 from elasticsearch import Elasticsearch
 
@@ -76,11 +77,13 @@ class SimpleEsServer(object):
 
 if __name__ == '__main__':
 
+    # Storing server name and port in a json file for easy config
+    server_filename = 'server_conf.json'
+    server_opts = json.loads(open(server_filename).read())
+
     cherrypy.config.update({
-            'server.socket_port': 9102, 
-            # TODO: need a server.conf
-            'server.socket_host': 'whitney.trinity.duke.edu'
-            # 'server.socket_host': 'localhost'
+            'server.socket_port': server_opts['server_port'], 
+            'server.socket_host': server_opts['server_name']
             })
             
     cherrypy.quickstart(SimpleEsServer())

@@ -30,6 +30,8 @@
 	
 	<div id="info_banner">
 	    
+	    <!-- TODO: Banner for search results! -->
+	    
 	    <!-- Keeping all banners hidden and revealing the appropriate one -->
 		<div id="info_banner_current" hidden>
             <p class="h1sub">Fridays &middot; Noon &ndash; 1pm<br/>
@@ -71,6 +73,11 @@
 		<div class="mainsection">
 			
 		    <select id="semester_select"></select>
+            
+            <form id="search_box_form">
+              <input id="search_box" type="text">
+            </form>
+
 			<p class="h2" id="schedule_heading">Schedule</p>
 
 			<table class="schedule" id="schedule_table" >
@@ -146,8 +153,8 @@
     
     <!-- Talk list template -->
     <script id="talk_template" type="text/x-handlebars-template">
-			<tr class="{{tr_class}}">
-  			<td class="{{td_date_class}}">
+			<tr class="event_row {{tr_class}}">
+  			<td>
     			<p class="date">{{monthday}}</p>
     			<p class="dateyear">{{year}}</p>
     		</td>
@@ -191,6 +198,22 @@
     
     <!-- MAIN SCRIPT -->
     <script type="text/javascript">
+
+$( "#search_box_form" ).submit(function( event ) {
+  fulltext_search( $("#search_box").val() );
+  event.preventDefault();
+});
+
+	// Load server config to check ports & methods
+	var server_conf;
+    $.ajax({
+        url: "server_conf.json",
+		async:false,
+        dataType: "json",
+        success: function(response) {
+            server_conf = response;
+        }
+    });
 
     // Link for main spreadsheet. Semesters are on individual tabs.
     // var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?key=0AgpG-BX4vPChdGdQdGllSEc1eDlTMjl5NUZjWVdnTHc&output=html';
@@ -249,6 +272,10 @@
         }
     });
     
+    // TODO: Get the info banner working on search (i.e. triggered in showInfo)
+    // TODO: Get semester selection not loading whole new page!!
+    // TODO: Affiliation results are swamping abstracts -- turn down relevance on them a bit
+    
     // Set default selection to current dataset, set page title, and reveal appropriate banner text
     if (target_sheet) {
         var pg_url = uri.protocol + "://" + uri.host + uri.path + "?semester=" + target_sheet.semester;
@@ -284,15 +311,20 @@
         return 0;
     }
     
-    var populate_semester = function(target_sheet) {
-//         Tabletop.init( { key: public_spreadsheet_url,
-//                          callback: showInfo,
-//                          simpleSheet: true,
-//                          wanted: [target_sheet.semester]} );
+    var fulltext_search = function(search_string) {
         $.ajax({
-            // url: "http://localhost/es/semester?s=" + target_sheet.semester,
-            // TODO: need a server.conf
-            url: "http://whitney.trinity.duke.edu/es/search?q=virtual",
+            url: "http://" + server_conf.server_name + "/es/search?q=" + search_string,
+            async: true,
+            dataType: "json",
+            success: function(response) {
+                showInfo(response);
+            }
+        });
+    };
+
+    var populate_semester = function(target_sheet) {
+        $.ajax({
+            url: "http://" + server_conf.server_name + "/es/semester?s=" + target_sheet.semester,
             async: true,
             dataType: "json",
             success: function(response) {
@@ -305,6 +337,9 @@
 
         // Remove animated gif indicating page loading
         $("#schedule_loading_image").remove();
+
+        // And remove any previous event results
+        $(".event_row").remove();
 
         // Sort data by date just in case spreadsheet is not
         // ff_data.sort(compare_dates_ascending);
@@ -357,12 +392,12 @@
         // $(".next_up").get(0).scrollIntoView();
         // http://stackoverflow.com/questions/6677035/jquery-scroll-to-element
         var nu = $(".next_up");
-        if (nu.length > 0) {
-            $('html, body').animate({scrollTop: nu.offset().top}, 
-                                        {duration:1000,
-                                         complete:function(){ window.location.hash = current_hash;}}
-            );
-        }
+//         if (nu.length > 0) {
+//             $('html, body').animate({scrollTop: nu.offset().top}, 
+//                                         {duration:1000});
+//                                          complete:function(){ window.location.hash = current_hash;}}
+//             );
+ //       }
     }
     
     // ------------------
