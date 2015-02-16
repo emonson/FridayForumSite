@@ -36,6 +36,7 @@ class SimpleEsServer(object):
                                 doc_type='talks', 
                                 body=body, 
                                 size=20, 
+                                # sort=['date:desc'],
                                 _source_exclude=exclude_return)
         
         # Don't return score, number of hits, time took, etc.
@@ -77,8 +78,9 @@ if __name__ == '__main__':
 
     cherrypy.config.update({
             'server.socket_port': 9102, 
-            # 'server.socket_host': '10.190.55.12'
-            'server.socket_host': 'localhost'
+            # TODO: need a server.conf
+            'server.socket_host': 'whitney.trinity.duke.edu'
+            # 'server.socket_host': 'localhost'
             })
             
     cherrypy.quickstart(SimpleEsServer())

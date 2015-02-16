@@ -131,6 +131,10 @@ p {
 p.date {
 	font-weight: bold;
 }
+p.dateyear {
+	font-weight: regular;
+	color: DarkGrey;
+}
 p.speaker {
 	margin-bottom: 1em;
 	font-weight: bold;

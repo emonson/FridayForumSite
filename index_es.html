@@ -149,6 +149,7 @@
 			<tr class="{{tr_class}}">
   			<td class="{{td_date_class}}">
     			<p class="date">{{monthday}}</p>
+    			<p class="dateyear">{{year}}</p>
     		</td>
   			<td>
     			<a id="{{date_anchor}}"></a>
@@ -289,7 +290,9 @@
 //                          simpleSheet: true,
 //                          wanted: [target_sheet.semester]} );
         $.ajax({
-            url: "http://localhost/es/semester?s=" + target_sheet.semester,
+            // url: "http://localhost/es/semester?s=" + target_sheet.semester,
+            // TODO: need a server.conf
+            url: "http://whitney.trinity.duke.edu/es/search?q=virtual",
             async: true,
             dataType: "json",
             success: function(response) {
@@ -314,6 +317,7 @@
             dat.setHours(13);
             var now = Date.now();
             ff.monthday = months[dat.getMonth()] + ' ' + dat.getDate();
+            ff.year = dat.getFullYear();
             // Create an anchor string out of the date
             // http://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date
             ff.date_anchor = dat.getFullYear() + '-'
