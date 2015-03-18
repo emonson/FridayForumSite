@@ -37,7 +37,7 @@ html {
 }
 
 #wrap {
-	width:680px;
+	max-width:680px;
 	margin:0 auto;
 	background:#fff;
 	border: 1px solid #333;
@@ -93,6 +93,10 @@ html {
  */
 	background-color: #FFE994;
 }
+.talk_entry {
+	margin: 0em 0em;
+	padding: 1em;
+}
 
 form {
     float: right;
@@ -127,7 +131,7 @@ p {
   vertical-align: top;
 	line-height: 1.4em;
   -webkit-margin-before: 0em;
-  -webkit-margin-after: 0.5em;
+  -webkit-margin-after: 0.25em;
   -webkit-margin-start: 0px;
   -webkit-margin-end: 0px;
 }
@@ -135,13 +139,20 @@ p {
 p.date {
 	font-weight: bold;
 }
+p.date_full {
+	font-weight: regular;
+	font-style: italic;
+	margin-bottom: 0.25;
+	color: #666;
+}
 p.dateyear {
 	font-weight: regular;
 	color: DarkGrey;
 }
 p.speaker {
-	margin-bottom: 1em;
+	margin-bottom: 0.75em;
 	font-weight: bold;
+	color: #333;
 }
 span.affiliation {
   font-weight: normal;
@@ -153,10 +164,35 @@ p.title {
   font-weight: bold;
   color: #444;
 }
+p.toptitle {
+  margin-bottom: 0.25em;
+  margin-left: 0em;
+  font-size: 120%;
+  font-weight: bold;
+  color: #000;
+}
+p.topabstract {
+  margin-bottom: 0.25em;
+	margin-left: 0em;
+  color: #666;
+}
+p.followingabstract {
+  margin-bottom: 0.25em;
+	margin-left: 0em;
+	margin-top: 0.35em;
+  color: #666;
+}
 p.abstract {
   margin-bottom: 0.5em;
 	margin-left: 1.5em;
   color: #666;
+}
+p.resource_link {
+	margin-bottom: 0.25em;
+	color: #666;
+}
+p.resource_link a {
+	color: #666;
 }
 p.video_link {
   margin-bottom: 0.25em;
@@ -216,13 +252,19 @@ a.anchor:hover {
 
 #main {
 	float: left;
-	width: 595px;
+	max-width: 595px;
 	padding-top: 10px;
 	padding-left: 40px;
 	padding-right: 45px;
 	padding-bottom: 10px;
 	background: #fff;
 }
+@media screen and (max-width: 480px) {
+	#main {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+} 
 #main li {
 	margin-bottom: 0.5em;
 }

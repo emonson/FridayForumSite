@@ -75,12 +75,17 @@
 		    <select id="semester_select"></select>
 			<p class="h2" id="schedule_heading">Schedule</p>
 
-			<div id="schedule_list_body">
+			<table class="schedule" id="schedule_table" >
+			
+			<colgroup>
+			  <col class="date_col" />
+			  <col class="text_col" />
+			</colgroup>
 			
 			<!-- This gets replaced by the table elements from the template & data -->
 			<img src="resources/spinner_1.gif" id="schedule_loading_image" />
 			
-			</div>
+			</table>
 			
 		</div>
 			
@@ -143,31 +148,35 @@
     
     <!-- Talk list template -->
     <script id="talk_template" type="text/x-handlebars-template">
-		<div class="talk_entry {{next_up}}">
-			<a id="{{date_anchor}}"></a>
-			<p class="date_full">{{fullmonthdayyear}}</p>
-			<a class="anchor" href="#{{date_anchor}}">
-			  <p class="toptitle">{{title}}</p>
-			</a>
-			<p class="speaker">{{speaker}}<span class="affiliation"> {{affiliation}}</span></p>
-			<p class="topabstract">{{{abstract}}}</p>
-			<p class="resource_link">
-			{{#if livestream}}
-			  {{! NOTE: existence of next_up test may make this fragile… }}
-			  {{#if next_up}}
-			    &middot; <a href="{{livestream}}">Live stream</a>
-			  {{/if}}
-			{{/if}}
-			</p>
-			<p class="resource_link">
-			{{#if video}}&middot; <a href="{{video}}">Video of the talk</a>{{/if}}
-	  		{{#if videonotes}} &ndash; <em>{{videonotes}}</em> {{/if}}
-			</p>
-			<p class="resource_link">
-			{{#if slides}}&middot; <a href="{{slides}}">Copy of the slides</a>{{/if}}
-	  		{{#if slidesnotes}} &ndash; <em>{{{slidesnotes}}}</em> {{/if}}
-			</p>
-		</div>
+			<tr class="{{tr_class}}">
+  			<td class="{{td_date_class}}">
+    			<p class="date">{{monthday}}</p>
+    		</td>
+  			<td>
+    			<a id="{{date_anchor}}"></a>
+    			<p class="speaker">{{speaker}}<span class="affiliation"> {{affiliation}}</span></p>
+    			<a class="anchor" href="#{{date_anchor}}">
+    			  <p class="title">{{title}}</p>
+    			</a>
+    			<p class="abstract">{{{abstract}}}</p>
+    			<p class="live_link">
+    			{{#if livestream}}
+    			  {{! NOTE: existence of tr_class test may make this fragile… }}
+    			  {{#if tr_class}}
+    			    &middot; <a href="{{livestream}}">Live stream</a>
+    			  {{/if}}
+    			{{/if}}
+    			</p>
+    			<p class="video_link">
+    			{{#if video}}&middot; <a href="{{video}}">Video of the talk</a>{{/if}}
+          		{{#if videonotes}} &ndash; <em>{{videonotes}}</em> {{/if}}
+    			</p>
+    			<p class="slides_link">
+    			{{#if slides}}&middot; <a href="{{slides}}">Copy of the slides</a>{{/if}}
+          		{{#if slidesnotes}} &ndash; <em>{{{slidesnotes}}}</em> {{/if}}
+    			</p>
+  			</td>
+			</tr>
     </script>
 
     <!-- Dependencies -->
@@ -193,7 +202,6 @@
     var uri = parseUri(location.toString());
     
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-    var fullmonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
     // First, find the semester marked "current"
     $.each(sheets, function(idx, sheet_obj) {
@@ -300,7 +308,7 @@
             // Set time of day of the end of the talk
             dat.setHours(13);
             var now = Date.now();
-            ff.fullmonthdayyear = fullmonths[dat.getMonth()] + ' ' + dat.getDate() + ', ' + dat.getFullYear();
+            ff.monthday = months[dat.getMonth()] + ' ' + dat.getDate();
             // Create an anchor string out of the date
             // http://stackoverflow.com/questions/3605214/javascript-add-leading-zeroes-to-date
             ff.date_anchor = dat.getFullYear() + '-'
@@ -312,22 +320,28 @@
 
             // Replace paragraph markers with actual html and break markers with real breaks
             // NOTE: /.../g is RegEx for replacing all instances
-            ff.abstract = ff.abstract ? ff.abstract.replace(/<p>/g,'</p><p class="followingabstract">') : "";
+            ff.abstract = ff.abstract ? ff.abstract.replace(/<p>/g,'</p><p class="abstract">') : "";
             ff.abstract = ff.abstract ? ff.abstract.replace(/<br>/g,'<br />') : "";
 
+            // Want text a different class if there isn't a talk
+            // and border & color different if current on-deck talk
+            // NOTE: brittle test for now...
+            if (ff.speaker.trim().toLowerCase() == 'no talk') {
+                ff.tr_class = 'greyed_out';
+            }
             // Test whether the end of the talk is less than 7 days away
             // NOTE: This gets screwed up slightly on the time change weeks!
             if ((dat-now)/86400000 > 0 && (dat-now)/86400000 < 7) {
-                ff.next_up = 'next_up';
+                ff.tr_class = 'next_up';
             }
             // Want to show the first up as next even if more than a week before
             if ((dat-now)/86400000 > 0 && i==0) {
-                ff.next_up = 'next_up';
+                ff.tr_class = 'next_up';
             }
 
             // Send data to template
             var html = template(ff);
-            $("#schedule_list_body").append(html);
+            $("#schedule_table").append(html);
         });
     
         // Scroll to next up
