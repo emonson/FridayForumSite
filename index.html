@@ -86,7 +86,7 @@
 			
 		<div class="mainsection">
 			<p class="h2">Semester schedules</p>
-            <p id="prev_schedule_section"></p>
+            <div id="prev_schedule_section"></div>
 		</div>
 			
 		<div class="mainsection">
@@ -234,10 +234,20 @@
         } else {
             link_internal_tags = semester;
         }
-        $('#prev_schedule_section').append( $('<a></a>').attr('href', pg_url).html( link_internal_tags ) );
-        if (idx < (sheets.length - 1)) {
-            $('#prev_schedule_section').append( ' &middot;  ' );
-        }
+//        $('#prev_schedule_section').append( 
+//        	$('<a></a>').attr('href', pg_url)
+//        			    .attr('class','prev_schedule_link')
+//        			    .html( link_internal_tags ) 
+//        );
+		$('#prev_schedule_section').append(
+			$('<div></div>').attr('class','prev_schedule_link')
+				.append( 
+					$('<a></a>').attr('href', pg_url).html( link_internal_tags )
+				)
+		);
+//        if (idx < (sheets.length - 1)) {
+//            $('#prev_schedule_section').append( ' &middot;  ' );
+//        }
     });
     
     // Set default selection to current dataset, set page title, and reveal appropriate banner text

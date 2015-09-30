@@ -249,6 +249,10 @@ a.anchor:link {
 a.anchor:hover {
   text-decoration: underline;
 }
+div.prev_schedule_link {
+	display: inline-block;
+	padding: 0.5em 1em;
+}
 
 #main {
 	float: left;
