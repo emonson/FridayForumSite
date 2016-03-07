@@ -1,0 +1,302 @@
+body,
+html {
+	margin:0;
+	padding:0;
+	color:#000;
+	font: normal 90% "Helvetica Neue", helvetica, arial, sans-serif;
+	background: #535353;
+}
+
+#info_banner {
+	padding: 1em 1.5em;
+	background: #F1B636;
+}
+
+.nav {
+	padding: 0.5em 1.5em 0em 1.5em;
+	background: #fff;
+	border-bottom: 1px solid #F1B636;
+	border-top: 1px solid #F1B636;
+}
+.nav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.nav li {
+	display:inline;
+	margin:0;
+	padding:0;
+}
+
+#footer {
+	font: 80% arial, helvetica, sans-serif;
+	clear: both;
+	padding: 10px 45px 20px 40px;
+	background: #F39138;
+}
+
+#wrap {
+	max-width:680px;
+	margin:0 auto;
+	background:#fff;
+	border: 1px solid #333;
+}
+
+#header {
+	padding: 1em 1.5em;
+	background:#fff;
+}
+#header h2 {
+	margin: 0;
+}
+
+.h1 {
+	font-size: 160%;
+	font-weight: bold;
+	margin-top: 0em;
+	margin-bottom: 0;
+}
+.h1sub {
+	font-size: 110%;
+	font-weight: bold;
+	margin-top: 0.25em;
+	margin-bottom: 0.25em;
+}
+.h2 {
+	font-size: 120%;
+	font-style: italic;
+	line-height: 1em;
+	font-weight: bold;
+	margin: 1em 0em;
+}
+.h2sub {
+	font-size: 100%;
+	font-style: italic;
+	font-weight: normal;
+	margin: 0.5em 0em;
+}
+.h3 {
+	font-size: 100%;
+	margin: 1.5em 0 0.5em 0;
+	line-height: 1em;
+	font-weight: bold;
+}
+
+.greyed_out {
+	color: DarkGrey;
+}
+.next_up {
+/* 
+	background-image: url('red_triangle.jpeg');
+	background-repeat: no-repeat;
+ */
+	background-color: #FFE994;
+}
+.talk_entry {
+	margin: 0em 0em;
+	padding: 1em;
+}
+
+form {
+    float: right;
+    padding-right: 6px;
+}
+
+#semester_select {
+    float: right;
+}
+
+table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+col.date_col {
+  width: 6em;
+}
+col.text_col {
+  width: auto;
+}
+td {
+  vertical-align: text-top;
+  text-align: left;
+	padding-left: 1em;
+	padding-right: 1em;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+}
+
+p {
+  vertical-align: top;
+	line-height: 1.4em;
+  -webkit-margin-before: 0em;
+  -webkit-margin-after: 0.25em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+}
+
+p.date {
+	font-weight: bold;
+}
+p.date_full {
+	font-weight: regular;
+	font-style: italic;
+	margin-bottom: 0.25;
+	color: #666;
+}
+p.dateyear {
+	font-weight: regular;
+	color: DarkGrey;
+}
+p.speaker {
+	margin-bottom: 0.75em;
+	font-weight: bold;
+	color: #333;
+}
+span.affiliation {
+  font-weight: normal;
+  font-style: normal;
+}
+p.title {
+  margin-bottom: 0.5em;
+  margin-left: 1.5em;
+  font-weight: bold;
+  color: #444;
+}
+p.toptitle {
+  margin-bottom: 0.25em;
+  margin-left: 0em;
+  font-size: 120%;
+  font-weight: bold;
+  color: #000;
+}
+p.topabstract {
+  margin-bottom: 0.25em;
+	margin-left: 0em;
+  color: #666;
+}
+p.followingabstract {
+  margin-bottom: 0.25em;
+	margin-left: 0em;
+	margin-top: 0.35em;
+  color: #666;
+}
+p.abstract {
+  margin-bottom: 0.5em;
+	margin-left: 1.5em;
+  color: #666;
+}
+p.resource_link {
+	margin-bottom: 0.25em;
+	color: #666;
+}
+p.resource_link a {
+	color: #666;
+}
+p.video_link {
+  margin-bottom: 0.25em;
+	margin-left: 1.5em;
+  color: #666;
+}
+p.video_link a {
+  color: #666;
+}
+p.slides_link {
+  margin-bottom: 0.25em;
+	margin-left: 1.5em;
+  color: #666;
+}
+p.slides_link a {
+  color: #666;
+}
+p.live_link {
+  margin-bottom: 0.25em;
+	margin-left: 1.5em;
+  color: #666;
+}
+p.live_link a {
+  color: #666;
+}
+.font_normal {
+	font-weight: normal;
+}
+
+a {
+/* 
+	text-decoration: none;
+ */
+}
+a:link {
+	color: #183466;
+	background: transparent;
+}
+a:visited {
+	color: #600;
+	background: transparent;
+}
+a:active {
+	color: #339;
+	background: transparent;
+}
+a:hover {
+	color: black;
+	background: transparent;
+}
+a.anchor:link {
+  text-decoration: none;
+}
+a.anchor:hover {
+  text-decoration: underline;
+}
+div.prev_schedule_link {
+	display: inline-block;
+	padding: 0.5em 1em;
+}
+
+#main {
+	float: left;
+	max-width: 595px;
+	padding-top: 10px;
+	padding-left: 40px;
+	padding-right: 45px;
+	padding-bottom: 10px;
+	background: #fff;
+}
+@media screen and (max-width: 480px) {
+	#main {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+} 
+#main li {
+	margin-bottom: 0.5em;
+}
+.mainsection { 
+	padding: 0 0 2em;
+	border-bottom: 1px solid #ccc; 
+}
+.lastsection {
+	padding: 0 0 85px;
+	background: #fff url('logos/all_logos.png') no-repeat left bottom;
+}
+
+#footer ul {
+	margin-bottom: 1.5em;
+	padding: 0;
+	list-style: none;
+}
+#footer li {
+	display:inline;
+	margin:0;
+	padding:0;
+}
+#footer p {
+	margin-top: 0.5em;
+}
+#footer p.NIH {
+	margin-right: 200px;
+}
+#footer p.update {
+	font-style: italic;
+}
