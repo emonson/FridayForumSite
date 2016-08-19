@@ -11,7 +11,8 @@ data_file = 'SheetNames.xlsx'
 sheet_name = 'Sheet1'
 out_file = 'sheet_names.json'
 
-site_base_url = 'http://vis.duke.edu/FridayForum/'
+# site_base_url = 'http://vis.duke.edu/FridayForum/'
+site_base_url = 'https://users.cs.duke.edu/~emonson/FridayForum/'
 site_file = 'sitemap.xml'
 
 # First, convert file to json for use in web schedule page

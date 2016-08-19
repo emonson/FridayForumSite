@@ -1,1 +1,1 @@
-Sitemap: http://vis.duke.edu/FridayForum/sitemap.xml
+Sitemap: http://www.cs.duke.edu/~emonson/FridayForum/sitemap.xml
