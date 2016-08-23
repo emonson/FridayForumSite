@@ -1,6 +1,7 @@
 import cherrypy
 import json
 from collections import defaultdict
+import os, base64, re, logging
 from elasticsearch import Elasticsearch
 
 from ES_FF_Reindex import es_ff_reindex
@@ -15,7 +16,20 @@ class SimpleEsServer(object):
     
     def __init__(self):
         
-        self.es = Elasticsearch()
+        # Parse the auth and host from env:
+        bonsai = os.environ['BONSAI_URL']
+        auth = re.search('https\:\/\/(.*)\@', bonsai).group(1).split(':')
+        host = bonsai.replace('https://%s:%s@' % (auth[0], auth[1]), '')
+
+        # Connect to cluster over SSL using auth for best security:
+        es_header = [{
+          'host': host,
+          'port': 443,
+          'use_ssl': True,
+          'http_auth': (auth[0],auth[1])
+        }]
+
+        self.es = Elasticsearch(es_header)
         
     @cherrypy.expose
     def index(self):

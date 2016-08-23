@@ -1,7 +1,9 @@
+import os, base64, re, logging
 from elasticsearch import Elasticsearch
 import urllib2
 import json
 import dateutil.parser
+import warnings
 
 def es_ff_reindex(modified_sheet_name='_', RECREATE=False, es=None):
     
@@ -10,7 +12,7 @@ def es_ff_reindex(modified_sheet_name='_', RECREATE=False, es=None):
         # Now also make a connection to Elasticsearch
         es_index_name = 'friday_forum_test'
         es_doc_type = 'talks'
-        key =  '0AgpG-BX4vPChdGdQdGllSEc1eDlTMjl5NUZjWVdnTHc'
+        key =  '1x_pPSVaxifb1EpqqKeQfUYyTkuVt0_7oYwqHcLhHDME'
         
         doc_mapping = { "properties": {
             "abstract": { "analyzer": "english", "type": "string" },
@@ -48,7 +50,7 @@ def es_ff_reindex(modified_sheet_name='_', RECREATE=False, es=None):
             # Unfortunately, google doesn't let you get more granular than the sheet level to say where mods happened.
             if sheet_name == modified_sheet_name or RECREATE:
     
-                sheet_json_url = "https://spreadsheets.google.com//feeds/list/"+key+"/"+sheet_id+"/public/values?alt=json"
+                sheet_json_url = "https://spreadsheets.google.com/feeds/list/"+key+"/"+sheet_id+"/public/values?alt=json"
                 sheet_json = urllib2.urlopen(sheet_json_url).read()
                 sheet_dict = json.loads(sheet_json)
         
@@ -82,5 +84,28 @@ def es_ff_reindex(modified_sheet_name='_', RECREATE=False, es=None):
                     
 if __name__ == '__main__':
     
-    es = Elasticsearch()
-    es_ff_reindex(RECREATE=True, es=es)
+#     es = Elasticsearch()
+#     es_ff_reindex(RECREATE=True, es=es)
+    
+    # Log transport details (optional):
+    logging.basicConfig(level=logging.INFO)
+
+    # Parse the auth and host from env:
+    bonsai = os.environ['BONSAI_URL']
+    auth = re.search('https\:\/\/(.*)\@', bonsai).group(1).split(':')
+    host = bonsai.replace('https://%s:%s@' % (auth[0], auth[1]), '')
+
+    # Connect to cluster over SSL using auth for best security:
+    es_header = [{
+      'host': host,
+      'port': 443,
+      'use_ssl': True,
+      'http_auth': (auth[0],auth[1])
+    }]
+
+    # Instantiate the new Elasticsearch connection:
+    # Getting urllib3 warnings about InsecureRequestWarning - obscuring other output
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        es = Elasticsearch(es_header)
+        es_ff_reindex(RECREATE=True, es=es)
