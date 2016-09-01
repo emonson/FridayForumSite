@@ -88,16 +88,28 @@ class SimpleEsServer(object):
             es_ff_reindex(modified_sheet=modified_sheet, RECREATE=False, es=self.es)
             
         return
+    
+def CORS():
+    cherrypy.response.headers["Access-Control-Allow-Origin"] = "http://127.0.0.1:8000"
+
 
 if __name__ == '__main__':
 
     # Storing server name and port in a json file for easy config
     server_filename = 'server_conf.json'
     server_opts = json.loads(open(server_filename).read())
-
-    cherrypy.config.update({
-            'server.socket_port': server_opts['server_port'], 
-            'server.socket_host': server_opts['server_name']
-            })
-            
-    cherrypy.quickstart(SimpleEsServer())
+    
+    # Setting response header to allow cross-origin requests so this server
+    # doesn't have to be on the same port as the HTTP server
+    cherrypy.tools.CORS = cherrypy.Tool('before_handler', CORS)
+    
+    conf = {'global': {
+                'server.socket_port': server_opts['server_port'], 
+                'server.socket_host': server_opts['server_name']
+                },
+            '/': {
+                'tools.CORS.on': True
+                }
+            }
+                
+    cherrypy.quickstart(SimpleEsServer(), config=conf)

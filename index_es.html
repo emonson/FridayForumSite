@@ -250,8 +250,8 @@ $( "#search_box_form" ).submit(function( event ) {
 
     // Loop through the semesters and populate the select with options
     $.each(sheets, function(idx, sobj) {
-        
-        var pg_url = uri.protocol + "://" + uri.host + uri.path + "?semester=" + sobj.semester;
+
+        var pg_url = uri.protocol + "://" + uri.host + ":" + uri.port + uri.path + "?semester=" + sobj.semester;
         $('#semester_select').append( $('<option></option>').val(pg_url).html(sobj.semester.replace('_',' ')) );
         
         var semester = sobj.semester.replace('_',' ');
@@ -278,7 +278,7 @@ $( "#search_box_form" ).submit(function( event ) {
     
     // Set default selection to current dataset, set page title, and reveal appropriate banner text
     if (target_sheet) {
-        var pg_url = uri.protocol + "://" + uri.host + uri.path + "?semester=" + target_sheet.semester;
+        var pg_url = uri.protocol + "://" + uri.host + ":" + uri.port  + uri.path + "?semester=" + target_sheet.semester;
         $("#semester_select").val(pg_url);
 	    $( "#semester_title" ).html(target_sheet.semester.replace('_',' '));
 
@@ -313,7 +313,7 @@ $( "#search_box_form" ).submit(function( event ) {
     
     var fulltext_search = function(search_string) {
         $.ajax({
-            url: "http://" + server_conf.server_name + "/es/search?q=" + search_string,
+            url: "http://" + server_conf.server_name + ":" + server_conf.server_port + "/search?q=" + search_string,
             async: true,
             dataType: "json",
             success: function(response) {
@@ -324,7 +324,7 @@ $( "#search_box_form" ).submit(function( event ) {
 
     var populate_semester = function(target_sheet) {
         $.ajax({
-            url: "http://" + server_conf.server_name + "/es/semester?s=" + target_sheet.semester,
+            url: "http://" + server_conf.server_name + ":" + server_conf.server_port + "/semester?s=" + target_sheet.semester,
             async: true,
             dataType: "json",
             success: function(response) {
@@ -370,7 +370,7 @@ $( "#search_box_form" ).submit(function( event ) {
             // Want text a different class if there isn't a talk
             // and border & color different if current on-deck talk
             // NOTE: brittle test for now...
-            if (ff.speaker.trim().toLowerCase() == 'no talk') {
+            if (ff.speaker && ff.speaker.trim().toLowerCase() == 'no talk') {
                 ff.tr_class = 'greyed_out';
             }
             // Test whether the end of the talk is less than 7 days away
