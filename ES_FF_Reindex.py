@@ -109,4 +109,4 @@ if __name__ == '__main__':
         warnings.simplefilter('ignore')
         es = Elasticsearch(es_header)
         # es_ff_reindex(RECREATE=True, es=es)
-        es_ff_reindex(modified_sheet_name='Fall_2016', es=es)
+        es_ff_reindex(modified_sheet_name='Spring_2017', es=es)
