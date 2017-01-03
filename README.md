@@ -28,7 +28,8 @@ When you want to add a new semster on to the schedule:
       and 0.05 for further past. No priority value is entered for future semesters.
 1. Run the `excel2json_sheetnames_sitemap.py` script to generate both the JSON file the site
 Javascript will use, plus the `sitemap.xml` file that Google will use for indexing the site.
-
+1. Commit and push changes to GitHub.
+1. Upload changes to site host.
 
 [vff]: http://vis.duke.edu/FridayForum/ "Visualization Friday Forum"
 [duke]: http://www.duke.edu/ "Duke University"
