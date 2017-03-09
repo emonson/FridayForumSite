@@ -1,5 +1,5 @@
 import os, base64, re, logging
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, RequestsHttpConnection
 import urllib2
 import json
 import dateutil.parser
@@ -91,22 +91,37 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
 
     # Parse the auth and host from env:
-    bonsai = os.environ['BONSAI_URL']
-    auth = re.search('https\:\/\/(.*)\@', bonsai).group(1).split(':')
-    host = bonsai.replace('https://%s:%s@' % (auth[0], auth[1]), '')
+#     bonsai = os.environ['BONSAI_URL']
+#     auth = re.search('https\:\/\/(.*)\@', bonsai).group(1).split(':')
+#     host = bonsai.replace('https://%s:%s@' % (auth[0], auth[1]), '')
+# 
+#     # Connect to cluster over SSL using auth for best security:
+#     es_header = [{
+#       'host': host,
+#       'port': 443,
+#       'use_ssl': True,
+#       'http_auth': (auth[0],auth[1])
+#     }]
 
-    # Connect to cluster over SSL using auth for best security:
-    es_header = [{
-      'host': host,
-      'port': 443,
-      'use_ssl': True,
-      'http_auth': (auth[0],auth[1])
-    }]
+    # Amazon AWS ES test
+    host = 'search-dvstest-ssbfvmt2tjfvm7jj6qh2jtmuvi.us-west-2.es.amazonaws.com'
+    es = Elasticsearch( hosts=[{'host':host, 'port':443}], 
+        use_ssl=True, 
+        verify_certs=True, 
+        connection_class=RequestsHttpConnection
+    )
+    # es_ff_reindex(RECREATE=True, es=es)
+    es_ff_reindex(modified_sheet_name='Spring_2017', es=es)
 
     # Instantiate the new Elasticsearch connection:
     # Getting urllib3 warnings about InsecureRequestWarning - obscuring other output
-    with warnings.catch_warnings():
-        warnings.simplefilter('ignore')
-        es = Elasticsearch(es_header)
-        # es_ff_reindex(RECREATE=True, es=es)
-        es_ff_reindex(modified_sheet_name='Spring_2017', es=es)
+#     with warnings.catch_warnings():
+#         warnings.simplefilter('ignore')
+#         host = 'search-dvstest-ssbfvmt2tjfvm7jj6qh2jtmuvi.us-west-2.es.amazonaws.com'
+#         es = Elasticsearch( hosts=[{'host':host, 'port':443}], 
+#             use_ssl=True, 
+#             verify_certs=True, 
+#             connection_class=RequestsHttpConnection
+#         )
+#         # es_ff_reindex(RECREATE=True, es=es)
+#         es_ff_reindex(modified_sheet_name='Spring_2017', es=es)
