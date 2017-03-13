@@ -15,17 +15,17 @@ def es_ff_reindex(modified_sheet_name='_', RECREATE=False, es=None):
         key =  '1x_pPSVaxifb1EpqqKeQfUYyTkuVt0_7oYwqHcLhHDME'
         
         doc_mapping = { "properties": {
-            "abstract": { "analyzer": "english", "type": "string" },
-            "affiliation": { "analyzer": "standard", "type": "string" },
-            "speaker": { "analyzer": "standard", "type": "string" },
-            "sheet_name": { "analyzer": "standard", "type": "string" },
-            "gs_link": { "index": "no", "type": "string" },
-            "gs_key": { "index": "no", "type": "string" },
-            "gs_sheet_id": { "index": "no", "type": "string" },
-            "video": { "index": "no", "type": "string" },
-            "slides": { "index": "no", "type": "string" },
-            "livestream": { "index": "no", "type": "string" }
-            # "date": { "format": "date", "type": "dateOptionalTime" }
+            "abstract": { "analyzer": "english", "type": "text" },
+            "affiliation": { "analyzer": "standard", "type": "text", "fields": { "raw": { "type":  "keyword" }} },
+            "speaker": { "analyzer": "standard", "type": "text", "fields": { "raw": { "type":  "keyword" }} },
+            "sheet_name": { "type": "keyword" },
+            "gs_link": { "index": "false", "type": "keyword" },
+            "gs_key": { "index": "false", "type": "keyword" },
+            "gs_sheet_id": { "index": "false", "type": "keyword" },
+            "video": { "index": "no", "type": "keyword" },
+            "slides": { "index": "false", "type": "keyword" },
+            "livestream": { "index": "false", "type": "keyword" },
+            "date": { "type": "date" }
           }
         }
 
@@ -110,8 +110,8 @@ if __name__ == '__main__':
         verify_certs=True, 
         connection_class=RequestsHttpConnection
     )
-    # es_ff_reindex(RECREATE=True, es=es)
-    es_ff_reindex(modified_sheet_name='Spring_2017', es=es)
+    es_ff_reindex(RECREATE=True, es=es)
+    # es_ff_reindex(modified_sheet_name='Spring_2017', es=es)
 
     # Instantiate the new Elasticsearch connection:
     # Getting urllib3 warnings about InsecureRequestWarning - obscuring other output
