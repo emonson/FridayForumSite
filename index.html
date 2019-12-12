@@ -324,9 +324,9 @@
             ff.abstract = ff.abstract ? ff.abstract.replace(/<p>/g,'</p><p class="followingabstract">') : "";
             ff.abstract = ff.abstract ? ff.abstract.replace(/<br>/g,'<br />') : "";
 
-            // Test whether the end of the talk is less than 7 days away
+            // Test whether the end of the talk is less than 30 days away
             // NOTE: This gets screwed up slightly on the time change weeks!
-            if ((dat-now)/86400000 > 0 && (dat-now)/86400000 < 7) {
+            if ((dat-now)/86400000 > 0 && (dat-now)/86400000 < 30) {
                 ff.next_up = 'next_up';
             }
             // Want to show the first up as next even if more than a week before
